@@ -34,7 +34,7 @@ const Header = (props: HeaderProps) => {
             </div>
           </div>
         </Link>
-        <div className='flex justify-center items-center w-full max-md:hidden gap-5 px-5'>
+        <div className='flex justify-end items-center w-full max-md:hidden gap-5 px-5'>
           {props.navContents?.map((item, index) => (
             <a href={item.link} key={index} className={`hover:underline underline-offset-4 ${currentPath === item.link ? 'underline' : ''}`} onClick={() => setCurrentPath(item.link)}>
               {item.name}

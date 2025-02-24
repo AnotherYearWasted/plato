@@ -1,25 +1,25 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import LeftPanelNavigation from "@/components/LeftPanelNavigation";
 import NavigationContent from "@/interfaces/NavigationContent";
-// import Image from "next/image";
+import Image from "next/image";
 
 
 const navContents: NavigationContent[] = [
   {
     name: "Home",
-    link: "#home"
+    link: "#"
   },
   {
     name: "About",
-    link: "#about"
+    link: "/about"
   },
   {
-    name: "Projects",
-    link: "#projects"
+    name: "Discover",
+    link: "/discover"
   },
   {
     name: "Contact",
@@ -32,28 +32,40 @@ const Home = () => {
 
   const [isOpenMenu, setIsOpenMenu] = React.useState(false);
   const [item, setItem] = React.useState("");
-
+  const leftPanelRef = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
     setItem(navContents.find(nav => location.hash.includes(nav.link ?? ''))?.link ?? navContents[0]?.link ?? '');
   }, []);
 
+  useEffect(() => {
+    // event listener for closing the left panel
+    const handleClick = (e: MouseEvent) => {
+      if (isOpenMenu && leftPanelRef.current && !leftPanelRef.current.contains(e.target as Node)) {
+        setIsOpenMenu(false);
+      }
+    }
+    document.addEventListener('click', handleClick);
+    return () => {
+      document.removeEventListener('click', handleClick);
+    }
+
+  }, [isOpenMenu]);
+
   return (
     <>
-      <div className='absolute w-full z-20'>
+      <LeftPanelNavigation navContents={navContents} currentPath={item} onChange={setIsOpenMenu} isOpenMenu={isOpenMenu} ref={leftPanelRef} />
+      <div className='relative flex flex-col justify-between w-screen h-screen '>
+
         <Header navContents={navContents} currentPath={item} onChange={setIsOpenMenu} isOpenMenu={isOpenMenu} />
-      </div>
-      <LeftPanelNavigation navContents={navContents} currentPath={item} onChange={setIsOpenMenu} isOpenMenu={isOpenMenu} />
-      <div className='relative w-screen h-screen overflow-hidden transition duration-300'>
-        <div className='w-full h-full overflow-auto'>
-          <div className='invisible'>
-            <Header />
+          <div className='w-full h-full overflow-hidden flex justify-center items-center relative'>
+            <Image src='/assets/background.jpg' width={1920} height={1080} className='w-full h-full absolute object-cover -z-10'  alt='background' />
+              <p className='title text-white'>
+                Lorem ipsum
+              </p>
           </div>
-          <>
-            {/** Main contents here */}
-          </>
-          <Footer />
-        </div>
+
       </div>
+          <Footer />
     </>
   )
 }

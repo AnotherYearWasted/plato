@@ -24,4 +24,8 @@ body {
   .body {
     @apply text-black bg-white overflow-x-hidden h-screen w-screen dark:text-white dark:bg-black caret-black dark:caret-blue border-gray-300 dark:border-gray-700 text-base max-md:text-sm max-sm:text-xs antialiased transition duration-300;
   }
+
+  .title {
+    @apply font-semibold text-3xl;
+  }
 }

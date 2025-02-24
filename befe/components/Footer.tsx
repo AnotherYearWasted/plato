@@ -7,8 +7,8 @@ const Footer = () => {
   const [year, setYear] = React.useState(new Date().getFullYear());
 
   return (
-    <div className='flex justify-center border-gray-300 border-t-2 transition duration-300'>
-      <div className='w-full flex max-md:flex-wrap max-md:gap-2 px-2 py-2 justify-around items-center dark:text-slate-400 text-black fill-black dark:fill-slate-400 transition duration-300'>
+    <div className='flex justify-center transition duration-300'>
+      <div className='w-full flex max-md:flex-wrap max-md:gap-2 px-2 py-10 justify-around items-center bg-black text-slate-400 fill-slate-400 transition duration-300'>
         <div className='w-5/12 flex flex-col justify-between items-start max-md:w-full'>
           <div className='w-full flex justify-center gap-4 items-center p-2'>
             {/* {socialMedia.map((item, index) => (

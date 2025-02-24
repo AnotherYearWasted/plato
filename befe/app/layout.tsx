@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-
+import { Roboto_Slab } from "next/font/google";
 
 import "./globals.css";
 
@@ -8,6 +8,12 @@ import "./globals.css";
 
 const poppins = Poppins({
   variable: "--font-geist-sans",
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
+
+const roboto_slab = Roboto_Slab({
+  variable: "--font-geist-serif",
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
@@ -25,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} body`}
+        className={`${roboto_slab.className} body`}
       >
         {children}
       </body>
