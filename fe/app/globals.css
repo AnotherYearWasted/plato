@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer components {
+  .body {
+    @apply text-black bg-white overflow-x-hidden h-screen w-screen dark:text-white dark:bg-black caret-black dark:caret-blue border-gray-300 dark:border-gray-700 text-base max-md:text-sm max-sm:text-xs antialiased transition duration-300;
+  }
+}
