@@ -1,3 +1,5 @@
 .env
 __pycache__/
 *.py[cod]
+session_summary.json
+tab_usage.json

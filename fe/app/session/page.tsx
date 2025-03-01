@@ -7,25 +7,23 @@ const SERVER_URL = "http://127.0.0.1:8000";
 
 const SessionTimer = () => {
   const router = useRouter();
-  const [time, setTime] = useState(10); // 60 seconds for testing
+
+  // Basic state
+  const [time, setTime] = useState(10); // for testing
   const [imgSrc, setImgSrc] = useState<string | null>(null);
 
-  // On mount, start tracking if not already stopped
+  // On mount, start tracking + open the WebSocket
   useEffect(() => {
-    // Mark session as running
+    // 1) Mark session as running
     sessionStorage.setItem("running", "true");
 
-    // Start the browser activity tracking via the FastAPI endpoint
-    fetch(`${SERVER_URL}/start_tracking`, {
-      method: "POST",
-    })
+    // 2) Start the browser activity tracking
+    fetch(`${SERVER_URL}/start_tracking`, { method: "POST" })
       .then((res) => res.json())
       .then((data) => console.log("Tracking started:", data))
       .catch((err) => console.error("Error starting tracking:", err));
-  }, []);
 
-  useEffect(() => {
-    // Open the WebSocket connection
+    // 3) Open the WebSocket for video streaming
     const ws = new WebSocket("ws://localhost:8000/video");
 
     ws.onopen = () => {
@@ -45,12 +43,23 @@ const SessionTimer = () => {
       console.error("WebSocket error:", err);
     };
 
-    // Clean up on unmount
+    // Cleanup on unmount: close WebSocket and stop tracking
     return () => {
+      console.log("Unmounting /session page. Closing WebSocket and stopping tracking.");
       ws.close();
+
+      // Optionally also call stopTracking here if you want to end tracking
+      // whenever the user leaves the page:
+      fetch(`${SERVER_URL}/stop_tracking`, { method: "POST" })
+        .then((res) => res.json())
+        .then((data) => console.log("Tracking stopped:", data))
+        .catch((err) => console.error("Error stopping tracking:", err));
+
+      sessionStorage.setItem("running", "false");
     };
   }, []);
 
+  // Simple countdown timer
   useEffect(() => {
     if (time === 0) {
       handleTimeEnd();
@@ -62,27 +71,17 @@ const SessionTimer = () => {
     return () => clearInterval(timer);
   }, [time]);
 
-  const stopTracking = () => {
-    // Stop tracking via FastAPI endpoint
-    fetch(`${SERVER_URL}/stop_tracking`, {
-      method: "POST",
-    })
-      .then((res) => res.json())
-      .then((data) => console.log("Tracking stopped:", data))
-      .catch((err) => console.error("Error stopping tracking:", err));
-  };
-
+  // When timer reaches 0, navigate away (which unmounts + closes WebSocket)
   const handleTimeEnd = () => {
-    // This triggers navigation to /summary when the timer reaches 0
     router.push("/summary");
   };
 
+  // Manual "END SESSION" button
   const handleEndSession = () => {
-    sessionStorage.setItem("running", "false");
-    stopTracking();
     router.push("/");
   };
 
+  // Utility to format seconds into M:SS
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
