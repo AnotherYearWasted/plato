@@ -22,8 +22,8 @@ const navContents: NavigationContent[] = [
     link: "/discover"
   },
   {
-    name: "Contact",
-    link: "#contact"
+    name: "Profile",
+    link: "/profile"
   }
 ]
 
