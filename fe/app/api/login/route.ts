@@ -11,6 +11,7 @@ export async function POST(request: NextRequest) {
         const password = body.password;
 
         const userService = await ServiceFactory.getUserService();
+        
         const user = await userService.login(username, password);
         if (!user) {
             console.log("Received:", username, password);
@@ -23,7 +24,7 @@ export async function POST(request: NextRequest) {
         const cookieService = await ServiceFactory.getCookieService();
         await cookieService.save(cookie);
        
-        return NextResponse.json({ username, password, cookie}, { status: 200 });
+        return NextResponse.json({ username: user.getUsername(), email: user.getEmail(), token: cookie.token }, { status: 200 });
     } catch (error) {
         console.error("Error processing request:", error);
         return NextResponse.json({ error: "Invalid request" }, { status: 400 });

@@ -6,6 +6,8 @@ export interface UserService {
 
     register(username: string, password: string, email: string): Promise<User | null>;
 
+    getUserByUserId(userId: string): Promise<User | null>;
+
     fromDocument(userDocument: UserDocument): User;
 
     save(user: User): Promise<boolean>;

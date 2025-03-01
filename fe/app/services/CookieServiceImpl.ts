@@ -36,6 +36,7 @@ export class CookieServiceImpl implements CookieService {
         if (!cookieDocument) {
             return null;
         }
+        console.log(cookieDocument);
         return this.fromDocument(cookieDocument);
     }
 

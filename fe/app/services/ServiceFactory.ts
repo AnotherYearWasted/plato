@@ -15,6 +15,7 @@ export class ServiceFactory {
     private static cookieService: CookieService;
     
     public static getUserService(): UserService {
+        console.log(ServiceFactory.userService);
         return ServiceFactory.userService;
     }
 
@@ -22,9 +23,13 @@ export class ServiceFactory {
         return ServiceFactory.cookieService;
     }
 
-    public static async Init() {
+    public static async init() {
+        console.log(":DDD");
         ServiceFactory.userService = new UserServiceImpl(new UserRepository(await Database.getCollection("users")));
+        console.log(ServiceFactory.getUserService());
         ServiceFactory.cookieService = new CookieServiceImpl(new CookieRepository(await Database.getCollection("cookies")));
+        ServiceFactory.initialized = true;
     }
+
 
 }

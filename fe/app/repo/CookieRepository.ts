@@ -16,7 +16,11 @@ export class CookieRepository {
      * Get function - Retrieves a user by token.
      */
     public async getCookie(token: string): Promise<CookieDocument | null> {
-        return await this.collection.findOne({ token });
+        return await this.collection.findOne({ "token": token }, { projection: { _id: 0 } });
+    }
+
+    public async getAllCookies(): Promise<CookieDocument[]> {
+        return await this.collection.find({}, { projection: { _id: 0 } }).toArray();
     }
 
     /**

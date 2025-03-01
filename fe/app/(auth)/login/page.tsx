@@ -31,7 +31,7 @@ const Login = () => {
         if (res.status === 200) {
           const body = await res.json();
           
-          localStorage.setItem("cookie", body.cookie);
+          localStorage.setItem("cookie", body.token);
           setTimeout(() => {
             window.location.href = "/";
           }, 2000);

@@ -8,7 +8,6 @@ export default class Database {
     public static initialized = false;
 
     static async connect() {
-        console.log(process.env)
         const url = process.env.DRIVER + process.env.DB_USER + ":" + process.env.DB_PASSWORD + "@" + process.env.DB_HOST + "/?retryWrites=" + process.env.RETRY_WRITES + "&w=" + process.env.W + "&appName=" + process.env.APP_NAME;
         Database.client = new MongoClient(url);
 

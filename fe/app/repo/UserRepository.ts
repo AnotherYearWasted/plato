@@ -72,6 +72,10 @@ export class UserRepository {
         return newUser;
     }
 
+    public async getUserByUserId(userId: string): Promise<UserDocument | null> {
+        return await this.collection.findOne({ "userId": userId }, { projection: { _id: 0 } });
+    }
+
     /**
      * Save function - Updates an existing user or inserts a new one.
      */

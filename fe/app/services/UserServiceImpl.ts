@@ -23,7 +23,16 @@ export class UserServiceImpl implements UserService {
         return this.userRepository.register(username, password, email);
     }
 
+    public async getUserByUserId(userId: string): Promise<User | null> {
+        const userDocument: UserDocument | null = await this.userRepository.getUserByUserId(userId);
+        if (!userDocument) {
+            return null;
+        }
+        return this.fromDocument(userDocument);
+    }
+
     public fromDocument(userDocument: UserDocument): User {
+        console.log(userDocument);
         return new User(userDocument.username, userDocument.password, userDocument.email, userDocument.createdAt, userDocument.userId);
     }
 
